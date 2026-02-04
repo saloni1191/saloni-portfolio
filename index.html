@@ -318,7 +318,16 @@
     <div class="modal__panel" role="document">
       <button class="modal__close" data-close aria-label="Close">×</button>
 
-      <div class="modal__media" id="modalMedia"></div>
+      <div class="modal__media">
+  <button class="galleryBtn galleryBtn--left" id="prevImg" aria-label="Previous image">‹</button>
+
+  <div class="galleryMain" id="modalMedia" aria-label="Project images"></div>
+
+  <button class="galleryBtn galleryBtn--right" id="nextImg" aria-label="Next image">›</button>
+
+  <div class="thumbs" id="thumbs" aria-label="Thumbnails"></div>
+</div>
+
 
       <div class="modal__content">
         <div class="modal__kicker" id="modalCategory"></div>
@@ -347,3 +356,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+
