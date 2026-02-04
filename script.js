@@ -30,10 +30,8 @@ window.addEventListener("scroll", () => {
   if (progress) progress.style.width = `${Math.min(100, Math.max(0, scrolled))}%`;
 });
 
-// ===== Work Data (PLACEHOLDERS NOW) =====
-// Later you can replace image names in assets folder.
-// "image" is used for grid thumbnail.
-// "images" is used for popup gallery (multiple images).
+// ===== WORK DATA (EDIT THIS LATER ONLY) =====
+// Replace images in /assets and update this text when you add your real work.
 const WORK = [
   {
     id: "p1",
@@ -43,17 +41,39 @@ const WORK = [
     desc: "A clean identity system built for consistency across digital touchpoints.",
     tools: "Illustrator • Photoshop",
     role: "Concept • Identity • Brand Assets",
+    overview: "Built a bold, consistent identity system with typography, color rules and reusable templates for digital use.",
+    highlights: [
+      "Defined layout & typography hierarchy",
+      "Created logo usage / spacing rules",
+      "Designed reusable social templates"
+    ],
+    deliverables: [
+      "Logo variations",
+      "Brand color + type system",
+      "Social media templates"
+    ],
     image: "assets/work-1.jpg",
     images: ["assets/p1-1.jpg", "assets/p1-2.jpg", "assets/p1-3.jpg"],
   },
   {
     id: "p2",
-    title: "Social Media Campaign",
+    title: "Social Media Campaign Creatives",
     category: "social",
     categoryLabel: "Social",
-    desc: "Bold campaign creatives designed to increase engagement and recall.",
+    desc: "Scroll-stopping campaign creatives with a consistent visual system.",
     tools: "Photoshop • Illustrator",
     role: "Creative Direction • Design",
+    overview: "Designed a consistent campaign system for posts & stories focused on clarity, brand recall and engagement.",
+    highlights: [
+      "Strong product-first composition",
+      "Consistent grid + spacing system",
+      "Multiple formats for Instagram"
+    ],
+    deliverables: [
+      "Posts (1:1, 4:5)",
+      "Stories (9:16)",
+      "Campaign variants"
+    ],
     image: "assets/work-2.jpg",
     images: ["assets/p2-1.jpg", "assets/p2-2.jpg", "assets/p2-3.jpg"],
   },
@@ -62,9 +82,20 @@ const WORK = [
     title: "Ad Creative Set",
     category: "ads",
     categoryLabel: "Ads",
-    desc: "Conversion-focused key visuals with clean hierarchy and strong CTA space.",
+    desc: "Conversion-focused ad visuals with clean hierarchy and CTA space.",
     tools: "Photoshop",
     role: "Concept • Design • Deliverables",
+    overview: "Created high-clarity ad creatives with strong hierarchy, readable copy space, and brand-consistent visuals.",
+    highlights: [
+      "Multiple ad variations for testing",
+      "Clear CTA space and hierarchy",
+      "Export-ready formats"
+    ],
+    deliverables: [
+      "Static ads (1:1, 4:5, 9:16)",
+      "Headline variants",
+      "Key visual layout"
+    ],
     image: "assets/work-3.jpg",
     images: ["assets/p3-1.jpg", "assets/p3-2.jpg", "assets/p3-3.jpg"],
   },
@@ -73,34 +104,67 @@ const WORK = [
     title: "Packaging Design",
     category: "packaging",
     categoryLabel: "Packaging",
-    desc: "Premium packaging layout with strong shelf impact and clear product messaging.",
+    desc: "Premium packaging layout built for shelf impact and readability.",
     tools: "Illustrator • InDesign",
     role: "Layout • Print-ready Files",
+    overview: "Developed clean packaging layouts with strong hierarchy, brand consistency and print-safe design standards.",
+    highlights: [
+      "Clear front/back hierarchy",
+      "Readable typography system",
+      "Print-ready output"
+    ],
+    deliverables: [
+      "Front & back layout",
+      "Label variants",
+      "Mockups + print files"
+    ],
     image: "assets/work-4.jpg",
     images: ["assets/p4-1.jpg", "assets/p4-2.jpg", "assets/p4-3.jpg"],
   },
   {
     id: "p5",
-    title: "3D Concept Visual",
+    title: "3D Concept Visuals",
     category: "3d",
     categoryLabel: "3D",
-    desc: "A playful concept visual combining product + story for social-first content.",
+    desc: "Playful concept visuals designed for social-first storytelling.",
     tools: "Photoshop • 3D Tool",
     role: "Concept • Composition",
+    overview: "Created concept-led 3D visuals to make the creative more engaging and memorable for audiences.",
+    highlights: [
+      "Character-led storytelling",
+      "Clean composition & spacing",
+      "Brand color integration"
+    ],
+    deliverables: [
+      "3D concept visuals",
+      "Multiple poses/versions",
+      "Ad-ready exports"
+    ],
     image: "assets/work-5.jpg",
     images: ["assets/p5-1.jpg", "assets/p5-2.jpg", "assets/p5-3.jpg"],
   },
   {
     id: "p6",
-    title: "Brand Posters / Key Visuals",
+    title: "Key Visual Posters",
     category: "ads",
     categoryLabel: "Ads",
-    desc: "High-impact poster series with strong typography and bold spacing.",
+    desc: "High-impact key visuals with strong typography and bold spacing.",
     tools: "Photoshop • Illustrator",
     role: "Design • Output",
+    overview: "Designed bold key visuals/posters with clean typography and strong visual hierarchy for promotion and awareness.",
+    highlights: [
+      "Bold type + spacing system",
+      "Clean focal point control",
+      "Consistent visual rules"
+    ],
+    deliverables: [
+      "Poster variants",
+      "Social sizes",
+      "Print-ready exports"
+    ],
     image: "assets/work-6.jpg",
     images: ["assets/p6-1.jpg", "assets/p6-2.jpg", "assets/p6-3.jpg"],
-  },
+  }
 ];
 
 // ===== Render Work Grid =====
@@ -127,7 +191,6 @@ function renderWork(items) {
     )
     .join("");
 
-  // click + keyboard open
   qsa(".cardWork", grid).forEach((card) => {
     card.addEventListener("click", () => openModal(card.dataset.id));
     card.addEventListener("keydown", (e) => {
@@ -151,32 +214,34 @@ chips.forEach((chip) => {
   });
 });
 
-// ===== Modal =====
+// ===== Modal + Gallery =====
 const modal = qs("#modal");
 const modalMedia = qs("#modalMedia");
+const thumbsEl = qs("#thumbs");
+const prevBtn = qs("#prevImg");
+const nextBtn = qs("#nextImg");
+
 const modalCategory = qs("#modalCategory");
 const modalTitle = qs("#modalTitle");
 const modalDesc = qs("#modalDesc");
 const modalTools = qs("#modalTools");
 const modalRole = qs("#modalRole");
+const modalOverview = qs("#modalOverview");
+const modalHighlights = qs("#modalHighlights");
+const modalDeliverables = qs("#modalDeliverables");
 
-// Gallery elements (must exist in index.html updated modal)
-const thumbsEl = qs("#thumbs");
-const prevBtn = qs("#prevImg");
-const nextBtn = qs("#nextImg");
-
-// Gallery state
 let currentGallery = [];
 let currentIndex = 0;
 
 function renderThumbs(images) {
   if (!thumbsEl) return;
-
   thumbsEl.innerHTML = images
     .map(
       (src, i) => `
-    <button class="thumb ${i === 0 ? "is-active" : ""}" style="background-image:url('${src}')" aria-label="Open image ${i + 1}"></button>
-  `
+      <button class="thumb ${i === 0 ? "is-active" : ""}"
+        style="background-image:url('${src}')"
+        aria-label="Open image ${i + 1}">
+      </button>`
     )
     .join("");
 
@@ -187,33 +252,37 @@ function renderThumbs(images) {
 
 function setModalImage(index) {
   if (!modalMedia || !currentGallery.length) return;
-
   currentIndex = (index + currentGallery.length) % currentGallery.length;
+  modalMedia.style.backgroundImage =
+    `linear-gradient(135deg, rgba(225,6,0,.12), rgba(17,17,17,.08)), url('${currentGallery[currentIndex]}')`;
 
-  modalMedia.style.backgroundImage = `linear-gradient(135deg, rgba(225,6,0,.12), rgba(17,17,17,.08)), url('${currentGallery[currentIndex]}')`;
+  qsa(".thumb", thumbsEl).forEach((t, i) => {
+    t.classList.toggle("is-active", i === currentIndex);
+  });
+}
 
-  // active thumbnail
-  if (thumbsEl) {
-    qsa(".thumb", thumbsEl).forEach((t, i) => {
-      t.classList.toggle("is-active", i === currentIndex);
-    });
-  }
+function fillList(el, items) {
+  if (!el) return;
+  el.innerHTML = (items || []).map((x) => `<li>${x}</li>`).join("");
 }
 
 function openModal(id) {
   const item = WORK.find((w) => w.id === id);
   if (!item || !modal) return;
 
-  if (modalCategory) modalCategory.textContent = item.categoryLabel;
-  if (modalTitle) modalTitle.textContent = item.title;
-  if (modalDesc) modalDesc.textContent = item.desc;
-  if (modalTools) modalTools.textContent = item.tools;
-  if (modalRole) modalRole.textContent = item.role;
+  modalCategory.textContent = item.categoryLabel || "";
+  modalTitle.textContent = item.title || "";
+  modalDesc.textContent = item.desc || "";
+  modalTools.textContent = item.tools || "";
+  modalRole.textContent = item.role || "";
 
-  // Use multiple images if available, else fallback to single image
-  currentGallery = item.images && item.images.length ? item.images : [item.image];
+  if (modalOverview) modalOverview.textContent = item.overview || "";
+
+  fillList(modalHighlights, item.highlights);
+  fillList(modalDeliverables, item.deliverables);
+
+  currentGallery = (item.images && item.images.length) ? item.images : [item.image];
   currentIndex = 0;
-
   renderThumbs(currentGallery);
   setModalImage(0);
 
@@ -231,14 +300,11 @@ function closeModal() {
 
 qsa("[data-close]", modal).forEach((el) => el.addEventListener("click", closeModal));
 
-// Gallery buttons
 prevBtn?.addEventListener("click", () => setModalImage(currentIndex - 1));
 nextBtn?.addEventListener("click", () => setModalImage(currentIndex + 1));
 
-// Keyboard controls
 document.addEventListener("keydown", (e) => {
   if (!modal?.classList.contains("is-open")) return;
-
   if (e.key === "Escape") closeModal();
   if (e.key === "ArrowLeft") setModalImage(currentIndex - 1);
   if (e.key === "ArrowRight") setModalImage(currentIndex + 1);
